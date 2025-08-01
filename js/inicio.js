@@ -5,10 +5,9 @@ function guardar() {
   const dolares = parseFloat(document.getElementById("dolares")?.value) || 0;
   const responsable = document.getElementById("responsable")?.value.trim() || "Sin nombre";
 
-  const fecha = new Date().toISOString().split("T")[0]; // formato yyyy-mm-dd
+  const fecha = new Date().toISOString().split("T")[0];
   const total = efectivo + tarjeta;
 
-  // separar responsables por coma, pero evitar vacíos
   const responsablesArray = responsable
     .split(",")
     .map(r => r.trim())
@@ -17,7 +16,8 @@ function guardar() {
   const empleados = responsablesArray.length > 0 ? responsablesArray.length : 1;
   const pagoPorEmpleado = total / empleados;
 
-  const nuevoRegistro = {
+  const nuevoIngreso = {
+    tipo: "ingreso",
     fecha,
     saldoInicio,
     efectivo,
@@ -29,14 +29,66 @@ function guardar() {
     pagoPorEmpleado: pagoPorEmpleado.toFixed(2)
   };
 
-  try {
-    const historial = JSON.parse(localStorage.getItem("historialIngresos")) || [];
-    historial.push(nuevoRegistro);
-    localStorage.setItem("historialIngresos", JSON.stringify(historial));
-    alert("Información guardada correctamente.");
-    document.querySelectorAll("input").forEach(input => (input.value = ""));
-  } catch (error) {
-    console.error("Error al guardar:", error);
-    alert("Hubo un error al guardar la información. Revisa la consola.");
+  fetch("https://script.google.com/macros/s/AKfycbxu3d2Pfwzje_iRTnu-lH99fZHdDzBxTjtyW0sWKjzjp2GE83ceWIQYZYLnILggH_cR/exec", {
+    method: "POST",
+    body: JSON.stringify(nuevoIngreso),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(res => res.json())
+  .then(respuesta => {
+    if (respuesta.resultado === "OK") {
+      alert("Ingreso guardado correctamente en Google Sheets.");
+      document.querySelectorAll("#saldoinicio, #efectivo, #tarjeta, #dolares, #responsable").forEach(el => el.value = "");
+    } else {
+      alert("Error al registrar el ingreso.");
+    }
+  })
+  .catch(error => {
+    console.error("Error al conectar con Google Sheets:", error);
+    alert("Error al guardar. Revisa la consola.");
+  });
+}
+
+function guardarSalida() {
+  const fecha = document.getElementById("fechaSalida")?.value;
+  const forma = document.getElementById("formaSalida")?.value;
+  const concepto = document.getElementById("conceptoSalida")?.value.trim();
+  const cantidad = parseFloat(document.getElementById("cantidadSalida")?.value) || 0;
+  const responsable = document.getElementById("responsableSalida")?.value.trim() || "Sin nombre";
+
+  if (!fecha || !forma || !concepto || cantidad <= 0) {
+    alert("Por favor completa todos los campos correctamente.");
+    return;
   }
+
+  const datosSalida = {
+    fecha,
+    forma,
+    concepto,
+    cantidad,
+    responsable
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxu3d2Pfwzje_iRTnu-lH99fZHdDzBxTjtyW0sWKjzjp2GE83ceWIQYZYLnILggH_cR/exec", {
+    method: "POST",
+    body: JSON.stringify(datosSalida),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(res => res.json())
+  .then(respuesta => {
+    if (respuesta.resultado === "OK") {
+      alert("Salida registrada correctamente en Google Sheets.");
+      document.querySelectorAll("#fechaSalida, #formaSalida, #conceptoSalida, #cantidadSalida, #responsableSalida").forEach(el => el.value = "");
+    } else {
+      alert("Error al registrar en la hoja.");
+    }
+  })
+  .catch(error => {
+    console.error("Error al conectar con Google Sheets:", error);
+    alert("Error al guardar. Revisa la consola.");
+  });
 }
