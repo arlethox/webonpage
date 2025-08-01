@@ -80,8 +80,52 @@
       <button onclick="guardar()" class="mt-6 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-xl shadow-md hover:shadow-lg transition duration-200">
         Guardar información
       </button>
+      </div>    
+    </div>
+    
+        <!-- Registro de salidas -->
+    <div class="mt-10 bg-white p-6 rounded-2xl shadow-lg">
+      <div class="space-y-4">
+        <h2 class="text-2xl font-bold text-red-600 text-center">Registro de Salidas</h2>
+
+        <div>
+          <label for="fechaSalida" class="block font-medium text-gray-700 mb-1">Fecha de salida</label>
+          <input type="date" id="fechaSalida" class="w-full border-2 border-gray-200 rounded-xl p-3 text-lg focus:border-red-400 focus:ring-1 focus:ring-red-400 transition" />
+        </div>
+
+        <div>
+          <label for="formaSalida" class="block font-medium text-gray-700 mb-1">Forma de salida</label>
+          <select id="formaSalida" class="w-full border-2 border-gray-200 rounded-xl p-3 text-lg focus:border-red-400 focus:ring-1 focus:ring-red-400 transition">
+            <option value="">Selecciona una opción</option>
+            <option value="Efectivo">Efectivo</option>
+            <option value="Ahorro">Ahorro</option>
+            <option value="Tarjeta">Tarjeta</option>
+            <option value="Dólar">Dólar</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="conceptoSalida" class="block font-medium text-gray-700 mb-1">Concepto</label>
+          <input type="text" id="conceptoSalida" class="w-full border-2 border-gray-200 rounded-xl p-3 text-lg focus:border-red-400 focus:ring-1 focus:ring-red-400 transition" placeholder="Ej. Pago de renta" />
+        </div>
+
+        <div>
+          <label for="cantidadSalida" class="block font-medium text-gray-700 mb-1">Cantidad ($)</label>
+          <input type="number" id="cantidadSalida" class="w-full border-2 border-gray-200 rounded-xl p-3 text-lg focus:border-red-400 focus:ring-1 focus:ring-red-400 transition" placeholder="Ej. 500" />
+        </div>
+
+        <div>
+          <label for="responsableSalida" class="block font-medium text-gray-700 mb-1">Responsable:</label>
+          <input id="responsableSalida" list="listaResponsables" class="w-full border-2 border-gray-200 rounded-xl p-3 text-lg focus:border-red-400 focus:ring-1 focus:ring-red-400 transition" placeholder="Selecciona un nombre.">
+        </div>
+
+        <button onclick="guardarSalida()" class="mt-6 w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-xl shadow-md hover:shadow-lg transition duration-200">
+          Guardar salida
+        </button>
       </div>
     </div>
+
+
   </div>
 <!-- Llamado de javascript -->
   <script src="js/inicio.js"></script>
