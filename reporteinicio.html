@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reporte de Ingresos - Papelería</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .btn-borrar {
+      transition: all 0.2s ease;
+    }
+    .seleccionar-registro {
+      cursor: pointer;
+    }
+    #seleccionarTodos {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="bg-green-50 text-gray-800 p-4">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-6">
+      <img src="img/logo.png" alt="Logo Papelería" class="mx-auto h-16 mb-2">
+      <h1 class="text-2xl font-bold text-gray-800">Papelería WEB-ON</h1>
+      <h2 class="text-xl font-semibold text-gray-700">Reporte de Reparto Diario</h2>
+      <p class="text-sm text-gray-500 mt-1" id="fechaActual"></p>
+    </div>
+
+    <!-- Menú -->
+    <div class="flex flex-wrap justify-center gap-4 mb-6">
+      <a href="index.html" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 text-center">
+        Inicio
+      </a>
+      <a href="reparto_ingresos.html" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 text-center">
+        Reparto
+      </a>
+      <a href="reporte.html" class="bg-green-700 text-white font-bold py-3 px-6 rounded-xl shadow-md text-center">
+        Reportes
+      </a>
+      <a href="reporteinicio.html" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 text-center">
+        Reporte incio
+      </a>
+    </div>
+    <!-- Filtro de Fechas -->
+    <div class="bg-white p-4 rounded-2xl shadow-lg mb-6">
+    <h3 class="text-lg font-semibold text-gray-700 mb-4">Filtrar por Fecha</h3>
+    <div class="flex flex-col md:flex-row gap-4">
+        <input type="date" id="fechaInicio" class="border border-gray-300 rounded-lg px-4 py-2" />
+        <input type="date" id="fechaFin" class="border border-gray-300 rounded-lg px-4 py-2" />
+        <button onclick="filtrarPorFecha()" class="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-2 rounded-lg">
+        Filtrar
+        </button>
+        <button onclick="limpiarFiltro()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold px-4 py-2 rounded-lg">
+        Limpiar
+        </button>
+    </div>
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div class="bg-white p-4 rounded-2xl shadow-lg">
+        <h3 class="text-lg font-semibold text-gray-700 mb-2">Total Efectivo</h3>
+        <p class="text-2xl font-bold text-green-600" id="totalEfectivo">$0.00</p>
+      </div>
+      <div class="bg-white p-4 rounded-2xl shadow-lg">
+        <h3 class="text-lg font-semibold text-gray-700 mb-2">Total Tarjeta</h3>
+        <p class="text-2xl font-bold text-blue-600" id="totalTarjeta">$0.00</p>
+      </div>
+      <div class="bg-white p-4 rounded-2xl shadow-lg">
+        <h3 class="text-lg font-semibold text-gray-700 mb-2">Venta Total</h3>
+        <p class="text-2xl font-bold text-purple-600" id="ventaTotal">$0.00</p>
+      </div>
+    </div>
+
+    <!-- Gráfica -->
+    <div class="bg-white p-6 rounded-2xl shadow-lg mb-6">
+      <h3 class="text-lg font-semibold mb-4">Gráfica de Ingresos</h3>
+      <canvas id="graficaIngresos" height="120"></canvas>
+    </div>
+
+    <!-- Tabla -->
+    <div class="bg-white p-6 rounded-2xl shadow-lg">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">Historial de Repartos</h3>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm text-left border">
+        <thead class="bg-green-100 font-bold text-gray-700">
+        <tr>
+            <th class="px-4 py-2 border w-8"><input type="checkbox" id="seleccionarTodos"></th>
+            <th class="px-4 py-2 border">Fecha</th>
+            <th class="px-4 py-2 border">Inicio Caja ($)</th>
+            <th class="px-4 py-2 border">Efectivo ($)</th>
+            <th class="px-4 py-2 border">Tarjeta ($)</th>
+            <th class="px-4 py-2 border">Dólares ($)</th>
+            <th class="px-4 py-2 border">Responsable(s)</th>
+            <th class="px-4 py-2 border">Acciones</th>
+        </tr>
+        </thead>
+
+          <tbody id="tablaHistorial" class="bg-white divide-y divide-gray-200"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+ <script>
+  let historialCompleto = [];
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("fechaActual").textContent = new Date().toLocaleDateString("es-MX", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+
+    historialCompleto = JSON.parse(localStorage.getItem("historialIngresos")) || [];
+
+    mostrarDatos(historialCompleto);
+  });
+
+        function mostrarDatos(datos) {
+        const tabla = document.getElementById("tablaHistorial");
+        tabla.innerHTML = "";
+
+        let totalEfectivo = 0;
+        let totalTarjeta = 0;
+        let totalDolares = 0;
+
+        datos.forEach((registro, index) => {
+            // Aseguramos que los datos numéricos existan y sean válidos
+            const efectivo = parseFloat(registro.efectivo) || 0;
+            const tarjeta = parseFloat(registro.tarjeta) || 0;
+            const dolares = parseFloat(registro.dolares) || 0;
+            const saldoInicio = parseFloat(registro.saldoInicio) || 0;
+            const responsables = Array.isArray(registro.responsables)
+            ? registro.responsables.join(", ")
+            : registro.responsables || "Sin nombre";
+
+            const fila = document.createElement("tr");
+            fila.innerHTML = `
+            <td class="border px-2 py-1 text-center">
+                <input type="checkbox" class="seleccionar-registro" data-index="${index}">
+            </td>
+            <td class="border px-4 py-2">${registro.fecha}</td>
+            <td class="border px-4 py-2">$${saldoInicio.toFixed(2)}</td>
+            <td class="border px-4 py-2">$${efectivo.toFixed(2)}</td>
+            <td class="border px-4 py-2">$${tarjeta.toFixed(2)}</td>
+            <td class="border px-4 py-2">$${dolares.toFixed(2)}</td>
+            <td class="border px-4 py-2">${responsables}</td>
+            <td class="border px-4 py-2">
+                <button onclick="borrarRegistro(${index})" class="text-red-600 hover:underline">Borrar</button>
+            </td>
+            `;
+
+            totalEfectivo += efectivo;
+            totalTarjeta += tarjeta;
+            totalDolares += dolares;
+
+            tabla.appendChild(fila);
+        });
+
+        // Mostrar totales
+        document.getElementById("totalEfectivo").textContent = `$${totalEfectivo.toFixed(2)}`;
+        document.getElementById("totalTarjeta").textContent = `$${totalTarjeta.toFixed(2)}`;
+        document.getElementById("ventaTotal").textContent = `$${(totalEfectivo + totalTarjeta).toFixed(2)}`;
+
+        // Gráfica
+        actualizarGrafica(totalEfectivo, totalTarjeta, totalDolares);
+        }
+
+
+        function actualizarGrafica(efectivo, tarjeta, dolares) {
+        const ctx = document.getElementById('graficaIngresos').getContext('2d');
+
+        // Destruye gráfica anterior si ya existe
+        if (window.grafica) {
+            window.grafica.destroy();
+        }
+
+        window.grafica = new Chart(ctx, {
+            type: 'bar',
+            data: {
+            labels: ['Efectivo', 'Tarjeta', 'Dólares'],
+            datasets: [{
+                label: 'Ingresos',
+                data: [efectivo, tarjeta, dolares],
+                backgroundColor: ['#16a34a', '#2563eb', '#f59e0b']
+            }]
+            },
+            options: {
+            responsive: true,
+            scales: {
+                y: {
+                beginAtZero: true
+                }
+            }
+            }
+        });
+        }
+
+
+  function filtrarPorFecha() {
+    const fechaInicio = document.getElementById("fechaInicio").value;
+    const fechaFin = document.getElementById("fechaFin").value;
+
+    if (!fechaInicio || !fechaFin) {
+      alert("Por favor selecciona ambas fechas.");
+      return;
+    }
+
+    const filtrado = historialCompleto.filter(registro => {
+      return registro.fecha >= fechaInicio && registro.fecha <= fechaFin;
+    });
+
+    mostrarDatos(filtrado);
+  }
+
+  function limpiarFiltro() {
+    document.getElementById("fechaInicio").value = "";
+    document.getElementById("fechaFin").value = "";
+    mostrarDatos(historialCompleto);
+  }
+
+  function borrarRegistro(index) {
+    const historial = JSON.parse(localStorage.getItem("historialIngresos")) || [];
+    historial.splice(index, 1);
+    localStorage.setItem("historialIngresos", JSON.stringify(historial));
+    location.reload();
+  }
+</script>
+
+</body>
+</html>

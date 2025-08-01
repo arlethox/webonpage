@@ -8,9 +8,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-<!-- Para Excel -->
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
+  <!-- Para Excel -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <!-- Para PDF (puede cargarse dinámicamente) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
@@ -19,77 +19,71 @@
     <div class="text-center mb-6">
       <img src="img/logo.png" alt="Logo Papelería" class="mx-auto h-16 mb-2">
       <h1 class="text-2xl font-bold text-gray-800">Papelería WEB-ON</h1>
-      <h2 class="text-xl font-semibold text-gray-700">Reparto Diario de Ingresos</h2>
-      <p class="text-sm text-gray-500 mt-1" id="fechaHoraActual"></p>
+      <!--<h2 class="text-xl font-semibold text-gray-700">Pagina de inicio</h2>-->
+      <p class="text-sm text-gray-500 mt-1" id="fechaActual"></p>
     </div>
-
     <div class="bg-white p-6 rounded-2xl shadow-lg">
-        
       <div class="space-y-4">
 
-        
-        <!-- Botones de menú -->
-<!-- Menú de navegación con enlaces -->
-      <div class="flex flex-wrap justify-center gap-4 mb-6">
-        <a href="index.html" class="bg-green-700 text-white font-bold py-3 px-6 rounded-xl shadow-md text-center">
-          Inicio
-        </a>
-        <a href="reparto_ingresos.html" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 text-center">
-          Reparto I
-        </a>
-        <a href="reporte.html" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 text-center">
-          Reportes
-        </a>
-        <a href="configuracion.html" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 text-center">
-          Configuración
-        </a>
-      </div>
-
-
-        
-      </div>
+<!-- Botones de menú -->
+    <!-- Menú -->
+    <div class="flex flex-wrap justify-center gap-4 mb-6">
+      <a href="index.html" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 text-center">
+        Inicio
+      </a>
+      <a href="reparto_ingresos.html" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 text-center">
+        Reparto
+      </a>
+      <a href="reporte.html" class="bg-green-700 text-white font-bold py-3 px-6 rounded-xl shadow-md text-center">
+        Reportes
+      </a>
+      <a href="reporteinicio.html" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 text-center">
+        Reporte incio
+      </a>
+    </div>
       
       
-      <div class="space-y-4">
-        <div>
-          <label for="efectivo" class="block font-medium text-gray-700 mb-1">Venta en efectivo ($)</label>
-          <input type="number" id="efectivo" class="w-full border-2 border-gray-200 rounded-xl p-3 text-lg focus:border-green-400 focus:ring-1 focus:ring-green-400 transition" placeholder="Ej. 2000" />
-        </div>
-        
-        <div>
-          <label for="tarjeta" class="block font-medium text-gray-700 mb-1">Venta con tarjeta ($)</label>
-          <input type="number" id="tarjeta" class="w-full border-2 border-gray-200 rounded-xl p-3 text-lg focus:border-green-400 focus:ring-1 focus:ring-green-400 transition" placeholder="Ej. 1000" />
-        </div>
-        
-        <div>
-          <label for="empleados" class="block font-medium text-gray-700 mb-1">Número de empleados</label>
-          <input type="number" id="empleados" class="w-full border-2 border-gray-200 rounded-xl p-3 text-lg focus:border-green-400 focus:ring-1 focus:ring-green-400 transition" placeholder="Ej. 3" min="1" />
-        </div>
-      </div>
+        <div class="space-y-4">
+          <div>
+            <h1 class="text-2xl font-bold text-gray-800 text-center">Registro diario / Corte de caja.</h1>
+          </div>
+          <div>
+            <label for="saldoinicio" class="block font-medium text-gray-700 mb-1">Saldo de incio de caja ($)</label>
+            <input type="number" id="saldoinicio" class="w-full border-2 border-gray-200 rounded-xl p-3 text-lg focus:border-green-400 focus:ring-1 focus:ring-green-400 transition" placeholder="Ej. 1000" />
+          </div>
+          
+          <div>
+            <label for="efectivo" class="block font-medium text-gray-700 mb-1">Venta con Efectivo ($)</label>
+            <input type="number" id="efectivo" class="w-full border-2 border-gray-200 rounded-xl p-3 text-lg focus:border-green-400 focus:ring-1 focus:ring-green-400 transition" placeholder="Ej. 2000" />
+          </div>
+          <div>
+            <label for="tarjeta" class="block font-medium text-gray-700 mb-1">Venta con Tarjeta ($)</label>
+            <input type="number" id="tarjeta" class="w-full border-2 border-gray-200 rounded-xl p-3 text-lg focus:border-green-400 focus:ring-1 focus:ring-green-400 transition" placeholder="Ej. 4000" />
+          </div>
+          
+          <div>
+            <label for="dolares" class="block font-medium text-gray-700 mb-1">Venta en dolares ($)</label>
+            <input type="number" id="dolares" class="w-full border-2 border-gray-200 rounded-xl p-3 text-lg focus:border-green-400 focus:ring-1 focus:ring-green-400 transition" placeholder="Ej. 5000" />
+          </div>
 
-      <button onclick="calcular()" class="mt-6 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-xl shadow-md hover:shadow-lg transition duration-200">
-        Calcular Reparto
+          <div>
+            <label for="responsable" class="block font-medium text-gray-700 mb-1">Responsable:</label>
+            <input id="responsable" list="listaResponsables" class="w-full border-2 border-gray-200 rounded-xl p-3 text-lg focus:border-green-400 focus:ring-1 focus:ring-green-400 transition" placeholder="Selecciona un nombre.">
+            <datalist id="listaResponsables">
+              <option value="Jorge Balderas">
+              <option value="Arleth Jimenez">
+              <option value="Moises Salinas">
+              <option value="Calep Jimenez">
+            </datalist>
+          </div>
+        </div>
+      <button onclick="guardar()" class="mt-6 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-xl shadow-md hover:shadow-lg transition duration-200">
+        Guardar información
       </button>
-
-      <div id="resultados" class="mt-8 space-y-3"></div>
-
-      <div class="mt-8 flex gap-4">
-        <button onclick="descargarPDF()" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-xl shadow hover:shadow-md transition flex items-center justify-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
-          </svg>
-          PDF
-        </button>
-        <button onclick="descargarExcel()" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-xl shadow hover:shadow-md transition flex items-center justify-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          Excel
-        </button>
       </div>
     </div>
   </div>
-
-  <script src="app.js"></script>
+<!-- Llamado de javascript -->
+  <script src="js/inicio.js"></script>
 </body>
 </html>
