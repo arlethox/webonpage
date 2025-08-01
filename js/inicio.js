@@ -50,7 +50,6 @@ function guardar() {
     alert("Error al guardar. Revisa la consola.");
   });
 }
-
 function guardarSalida() {
   const fecha = document.getElementById("fechaSalida")?.value;
   const forma = document.getElementById("formaSalida")?.value;
@@ -64,6 +63,7 @@ function guardarSalida() {
   }
 
   const datosSalida = {
+    tipo: "salida",  // <-- Agregado este campo
     fecha,
     forma,
     concepto,
