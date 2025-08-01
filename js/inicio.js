@@ -28,15 +28,14 @@ function guardar() {
     responsables: responsablesArray,
     pagoPorEmpleado: pagoPorEmpleado.toFixed(2)
   };
+    fetch("https://corsproxy.io/?" + encodeURIComponent("https://script.google.com/macros/s/AKfycbwvoPFDMIv-LVw8g4QA9lBE4pWnxa9mlczFT3S4F8WZXCkElQlY56nz2O2rReo7vkUI/exec"), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(nuevoIngreso)
+    })
 
-  fetch("https://script.google.com/macros/s/AKfycbwvoPFDMIv-LVw8g4QA9lBE4pWnxa9mlczFT3S4F8WZXCkElQlY56nz2O2rReo7vkUI/exec", {
-    method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(nuevoIngreso) // o datosSalida según corresponda
-  })
   .then(res => res.json())
   .then(respuesta => {
     if (respuesta.resultado === "OK") {
@@ -72,14 +71,14 @@ function guardarSalida() {
     responsable
   };
 
-  fetch("https://script.google.com/macros/s/AKfycbwvoPFDMIv-LVw8g4QA9lBE4pWnxa9mlczFT3S4F8WZXCkElQlY56nz2O2rReo7vkUI/exec", {
-    method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(datosSalida)
-  })
+    fetch("https://corsproxy.io/?" + encodeURIComponent("https://script.google.com/macros/s/AKfycbwvoPFDMIv-LVw8g4QA9lBE4pWnxa9mlczFT3S4F8WZXCkElQlY56nz2O2rReo7vkUI/exec"), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(datoSalida)
+    })
+
   .then(res => res.json())
   .then(respuesta => {
     if (respuesta.resultado === "OK") {
