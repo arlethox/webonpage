@@ -29,7 +29,7 @@ function guardar() {
     pagoPorEmpleado: pagoPorEmpleado.toFixed(2)
   };
 
-  fetch("https://script.google.com/macros/s/AKfycbxu3d2Pfwzje_iRTnu-lH99fZHdDzBxTjtyW0sWKjzjp2GE83ceWIQYZYLnILggH_cR/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbwvoPFDMIv-LVw8g4QA9lBE4pWnxa9mlczFT3S4F8WZXCkElQlY56nz2O2rReo7vkUI/exec", {
     method: "POST",
     body: JSON.stringify(nuevoIngreso),
     headers: {
@@ -71,7 +71,7 @@ function guardarSalida() {
     responsable
   };
 
-  fetch("https://script.google.com/macros/s/AKfycbxu3d2Pfwzje_iRTnu-lH99fZHdDzBxTjtyW0sWKjzjp2GE83ceWIQYZYLnILggH_cR/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbwvoPFDMIv-LVw8g4QA9lBE4pWnxa9mlczFT3S4F8WZXCkElQlY56nz2O2rReo7vkUI/exec", {
     method: "POST",
     body: JSON.stringify(datosSalida),
     headers: {
