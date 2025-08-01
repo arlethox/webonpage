@@ -36,6 +36,7 @@ function guardar() {
       body: JSON.stringify(nuevoIngreso)
     })
 
+
   .then(res => res.json())
   .then(respuesta => {
     if (respuesta.resultado === "OK") {
@@ -76,8 +77,9 @@ function guardarSalida() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(datoSalida)
+      body: JSON.stringify(datosSalida)
     })
+
 
   .then(res => res.json())
   .then(respuesta => {
