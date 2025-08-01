@@ -31,22 +31,22 @@ function guardar() {
 
   fetch("https://script.google.com/macros/s/AKfycbwvoPFDMIv-LVw8g4QA9lBE4pWnxa9mlczFT3S4F8WZXCkElQlY56nz2O2rReo7vkUI/exec", {
     method: "POST",
-    body: JSON.stringify(nuevoIngreso),
+    mode: "cors",
     headers: {
       "Content-Type": "application/json"
-    }
+    },
+    body: JSON.stringify(nuevoIngreso) // o datosSalida según corresponda
   })
   .then(res => res.json())
   .then(respuesta => {
     if (respuesta.resultado === "OK") {
-      alert("Ingreso guardado correctamente en Google Sheets.");
-      document.querySelectorAll("#saldoinicio, #efectivo, #tarjeta, #dolares, #responsable").forEach(el => el.value = "");
+      alert("Guardado correctamente");
     } else {
-      alert("Error al registrar el ingreso.");
+      alert("Error: " + (respuesta.mensaje || "desconocido"));
     }
   })
   .catch(error => {
-    console.error("Error al conectar con Google Sheets:", error);
+    console.error("Error:", error);
     alert("Error al guardar. Revisa la consola.");
   });
 }
@@ -73,25 +73,24 @@ function guardarSalida() {
 
   fetch("https://script.google.com/macros/s/AKfycbwvoPFDMIv-LVw8g4QA9lBE4pWnxa9mlczFT3S4F8WZXCkElQlY56nz2O2rReo7vkUI/exec", {
     method: "POST",
-    body: JSON.stringify(datosSalida),
+    mode: "cors",
     headers: {
       "Content-Type": "application/json"
-    }
+    },
+    body: JSON.stringify(datosSalida) // o datosSalida según corresponda
   })
   .then(res => res.json())
   .then(respuesta => {
     if (respuesta.resultado === "OK") {
-      alert("Salida registrada correctamente en Google Sheets.");
-      document.querySelectorAll("#fechaSalida, #formaSalida, #conceptoSalida, #cantidadSalida, #responsableSalida").forEach(el => el.value = "");
+      alert("Guardado correctamente");
     } else {
-      alert("Error al registrar en la hoja.");
+      alert("Error: " + (respuesta.mensaje || "desconocido"));
     }
   })
   .catch(error => {
-    console.error("Error al conectar con Google Sheets:", error);
+    console.error("Error:", error);
     alert("Error al guardar. Revisa la consola.");
   });
-}
 function doOptions(e) {
   return ContentService.createTextOutput("")
     .setMimeType(ContentService.MimeType.TEXT)
