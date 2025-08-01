@@ -50,6 +50,7 @@ function guardar() {
     alert("Error al guardar. Revisa la consola.");
   });
 }
+
 function guardarSalida() {
   const fecha = document.getElementById("fechaSalida")?.value;
   const forma = document.getElementById("formaSalida")?.value;
@@ -63,7 +64,7 @@ function guardarSalida() {
   }
 
   const datosSalida = {
-    tipo: "salida",  // 👈 AGREGA ESTE CAMPO
+    tipo: "salida",
     fecha,
     forma,
     concepto,
@@ -77,7 +78,7 @@ function guardarSalida() {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(datosSalida) // o datosSalida según corresponda
+    body: JSON.stringify(datosSalida)
   })
   .then(res => res.json())
   .then(respuesta => {
@@ -91,12 +92,4 @@ function guardarSalida() {
     console.error("Error:", error);
     alert("Error al guardar. Revisa la consola.");
   });
-function doOptions(e) {
-  return ContentService.createTextOutput("")
-    .setMimeType(ContentService.MimeType.TEXT)
-    .setHeaders({
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST",
-      "Access-Control-Allow-Headers": "Content-Type"
-    });
-}
+} // <-- Cierre correcto de guardarSalida
