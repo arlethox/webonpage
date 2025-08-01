@@ -63,7 +63,7 @@ function guardarSalida() {
   }
 
   const datosSalida = {
-    tipo: "salida",  // <-- Agregado este campo
+    tipo: "salida",  // 👈 AGREGA ESTE CAMPO
     fecha,
     forma,
     concepto,
